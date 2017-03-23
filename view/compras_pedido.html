@@ -355,7 +355,7 @@
                            <input type="hidden" name="referencia_{$counter}" value="{$value->referencia}"/>
                             {if="!$fsc->pedido->editable"}
                            <input type="hidden" name="codcombinacion_{$counter}" value="{$value->codcombinacion}"/>
-                           {/if}6
+                           {/if}
                            <div class="form-control">
                               <small><a target="_blank" href="{$value->articulo_url()}">{$value->referencia}</a></small>
                            </div>
@@ -375,19 +375,12 @@
                                    value="{$value->cantidad}"  disabled="disable" onchange="recalcular();Convert_um_edit('{$counter}')"/>
                         </td>
                           <td>
+                              
                             <select class="form-control" id="codum_{$counter}" name="codum_{$counter}"  onchange=" Convert_um_edit('{$counter}')">
-                            {if="$value->codum == ''"}
-                            <option value="UNIDAD" selected="">UNIDAD</option>
-                            {else}
-                            <option value="{$value->codum}" selected="">{$value->codum}</option>
-                              {loop="$fsc->articulo_um->get($value->referencia)"}
-                                {if="$value1->referencia==$value->referencia"}
-                                <option value="{$value->codum}" >{$value->codum}</option>
-                                {else}
-                                <option value="UNIDAD">UNIDAD</option>
-                                {/if}
-                              {/loop}
-                            {/if}
+                            {loop="$fsc->articulo_um->get($value->referencia)"}
+                            <option value="{$value->codum}" selected="" >{$value->codum}</option>
+                            {/loop}
+                           
                             </select>
                         </td>
                         <td>

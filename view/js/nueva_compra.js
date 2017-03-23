@@ -422,6 +422,12 @@ function add_articulo(ref,desc,pvp,dto,codimpuesto,cantidad,codcombinacion,um_ba
    {
       codcombinacion = '';
    }
+   
+     if(typeof listaUM == 'undefined')
+   {
+      listaUM = 'UNIDAD';
+   }
+
 
    desc = Base64.decode(desc);
    $("#lineas_albaran").append("<tr id=\"linea_"+numlineas+"\">\n\
@@ -730,14 +736,19 @@ function aux_all_um(num,um_base,factor_base,listaUM)
    {
       if(um_base === all_um[i].codum){
         html += "<option value=\""+all_um[i].codum+"|1"+"\" selected=\"\">"+all_um[i].codum+"</option>";
-        console.log(all_um[0].codum + 'if funciona');
+        
       }else{
 
         if(buscador[all_um[i].codum]){
            html += "<option value=\""+all_um[i].codum+"|"+buscador[all_um[i].codum].factor+"\">"+all_um[i].codum+"</option>";
-           console.log(all_um[0].codum +'De lo contrario');
+          
           }
       }
+   }
+   if(factor_base==1){
+   var nueva_lista_um = 'UNIDAD';
+   html += "<option value=\""+nueva_lista_um+"\">"+nueva_lista_um+"</option>";
+         
    }
    html += "</select>\n";
    html += "<input type=\"hidden\" id=\"factor_"+num+"\" name=\"factor_"+num+"\" value=\""+factor_base+"\">";

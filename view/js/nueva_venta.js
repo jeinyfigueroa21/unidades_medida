@@ -488,7 +488,16 @@ function add_articulo(ref,desc,pvp,dto,codimpuesto,cantidad,codcombinacion,um_ba
    {
       codcombinacion = '';
    }
-
+   
+     if(typeof listaUM == 'undefined'){
+      listaUM = 'UNIDAD';
+   }
+  
+     if(typeof cantidad == 'undefined')
+   {
+      cantidad = 1;
+   }
+ 
    desc = Base64.decode(desc);
    $("#lineas_albaran").append("<tr id=\"linea_"+numlineas+"\">\n\
       <td><input type=\"hidden\" name=\"idlinea_"+numlineas+"\" value=\"-1\"/>\n\
@@ -526,9 +535,10 @@ function add_articulo(ref,desc,pvp,dto,codimpuesto,cantidad,codcombinacion,um_ba
  */
 function aux_all_um(num,um_base,factor_base,listaUM)
 {
-    console.log(listaUM);
+
    var lista_um = listaUM.split(',');
    var buscador = [];
+
    for(var i=0; i<lista_um.length; i++){
        var line = lista_um[i].split('|');
        var nueva_lista_um = {};
@@ -538,19 +548,23 @@ function aux_all_um(num,um_base,factor_base,listaUM)
    }
 
    var html = "<td><select id=\"um_"+num+"\" class=\"form-control\" name=\"um_"+num+"\" onchange=\"convertir_um('"+num+"')\">";
-
-    for(var i=0; i<all_um.length; i++)
-   {
-      if(um_base === all_um[i].codum){
+   
+    for(var i=0; i<all_um.length; i++){
+        if(um_base === all_um[i].codum){
         html += "<option value=\""+all_um[i].codum+"|1"+"\" selected=\"\">"+all_um[i].codum+"</option>";
-
-
-      }else{
-
+        }else{
         if(buscador[all_um[i].codum]){
            html += "<option value=\""+all_um[i].codum+"|"+buscador[all_um[i].codum].factor+"\">"+all_um[i].codum+"</option>";
         }
+        
       }
+   
+   }
+   if(factor_base==1){
+   
+   var nueva_lista_um = 'UNIDAD';
+   html += "<option value=\""+nueva_lista_um+"\">"+nueva_lista_um+"</option>";
+         
    }
    html += "</select>\n";
    html += "<input type=\"hidden\" id=\"factor_"+num+"\" name=\"factor_"+num+"\" value=\""+factor_base+"\">";
@@ -558,6 +572,14 @@ function aux_all_um(num,um_base,factor_base,listaUM)
 
    return html;
 }
+
+function aux_items(num,um_base,factor_base,listaUM){
+   var html = "<td><select id=\"codum_"+num+"\" class=\"form-control\" name=\"codum_"+num+"\" onchange=\"convertir_um('"+num+"')\">";
+   html += "<option value=\""+listaUM+"|1"+"\" selected=\"\">"+listaUM+"</option>";
+   html += "</select>\n";
+   return html;
+}
+
 
 function add_articulo_atributos(ref,desc,pvp,dto,codimpuesto,cantidad)
 {
@@ -574,16 +596,18 @@ function add_articulo_atributos(ref,desc,pvp,dto,codimpuesto,cantidad)
    });
 }
 
-function add_linea_libre()
-{
+function add_linea_libre(){
+    
+   var unit = ["UNIDAD"];
    $("#lineas_albaran").append("<tr id=\"linea_"+numlineas+"\">\n\
       <td><input type=\"hidden\" name=\"idlinea_"+numlineas+"\" value=\"-1\"/>\n\
          <input type=\"hidden\" name=\"referencia_"+numlineas+"\"/>\n\
          <input type=\"hidden\" name=\"codcombinacion_"+numlineas+"\"/>\n\
          <div class=\"form-control\"></div></td>\n\
       <td><textarea class=\"form-control\" id=\"desc_"+numlineas+"\" name=\"desc_"+numlineas+"\" rows=\"1\"></textarea></td>\n\
-      <td><input type=\""+input_number+"\" step=\"any\" id=\"cantidad_"+numlineas+"\" class=\"form-control text-right\" name=\"cantidad_"+numlineas+
-         "\" onchange=\"recalcular()\" onkeyup=\"recalcular()\" autocomplete=\"off\" value=\"1\"/></td>\n\
+     <td><input type=\""+input_number+"\" step=\"any\" id=\"cantidad_"+numlineas+"\" class=\"form-control text-right\" name=\"cantidad_"+numlineas+
+          "\" onchange=\"recalcular()\" onkeyup=\"recalcular()\" autocomplete=\"off\" value=\"1\"/></td>\n\
+     "+aux_items(numlineas,1,1,unit)+"\n\
       <td><button class=\"btn btn-sm btn-danger\" type=\"button\" onclick=\"$('#linea_"+numlineas+"').remove();recalcular();\">\n\
          <span class=\"glyphicon glyphicon-trash\"></span></button></td>\n\
       <td><input type=\"text\" class=\"form-control text-right\" id=\"pvp_"+numlineas+"\" name=\"pvp_"+numlineas+"\" value=\"0\"\n\

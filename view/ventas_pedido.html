@@ -436,20 +436,12 @@
                                    value="{$value->cantidad}"  disabled="disable" onchange="recalcular()"/>
                         </td>
                         <td>
-                           <select class="form-control" id="codum_{$counter}" name="codum_{$counter}"  onchange="Convert_um_edit({$counter})">
-                              {if="$value->codum == ''"}
-                              <option value="UNIDAD" selected="">UNIDAD</option>
-                              {else}
-                              <option value="{$value->codum}" selected="">{$value->codum}</option>
-                              {/if}
-                              {loop="$fsc->articulo_um->get($value->referencia)"}
-                                 {if="$value1->referencia==$value->referencia or $value1->codum== $value->codum"}
-                                 <option value="{$value->codum}" >{$value->codum}</option>
-                                 {else}
-                                 <option value="UNIDAD">UNIDAD</option>
-                                 {/if}
-                              {/loop}
-                           </select>
+                            <select class="form-control" id="codum_{$counter}" name="codum_{$counter}"  onchange=" Convert_um_edit('{$counter}')">
+                            {loop="$fsc->articulo_um->get($value->referencia)"}
+                            <option value="{$value->codum}" selected="" >{$value->codum}</option>
+                            {/loop}
+                           
+                            </select>
                         </td>
                         <td>
                            <button class="btn btn-sm btn-danger" type="button" onclick="$('#linea_{$counter}').remove();recalcular();">
