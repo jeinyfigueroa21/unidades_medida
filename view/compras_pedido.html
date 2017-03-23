@@ -353,7 +353,9 @@
                         <td>
                            <input type="hidden" name="idlinea_{$counter}" value="{$value->idlinea}"/>
                            <input type="hidden" name="referencia_{$counter}" value="{$value->referencia}"/>
+                            {if="!$fsc->pedido->editable"}
                            <input type="hidden" name="codcombinacion_{$counter}" value="{$value->codcombinacion}"/>
+                           {/if}6
                            <div class="form-control">
                               <small><a target="_blank" href="{$value->articulo_url()}">{$value->referencia}</a></small>
                            </div>
