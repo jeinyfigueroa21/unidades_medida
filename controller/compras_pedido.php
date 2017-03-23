@@ -433,7 +433,7 @@ class compras_pedido extends fs_controller
                      if($art0)
                      {
                         $linea->referencia = $art0->referencia;
-                        if($_POST['codcombinacion_' . $num])
+                        if(!empty($_POST['codcombinacion_' . $num]))
                         {
                            $linea->codcombinacion = $_POST['codcombinacion_' . $num];
                         }
